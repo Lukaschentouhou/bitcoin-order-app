@@ -1,0 +1,27 @@
+name: linting-tool-scan
+
+on:
+  push:
+    branches:
+      - githubcicd
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install JSHint
+        run: npm install -g jshint
+
+      - name: Run JSHint script
+        run: |
+          chmod +x scripts/jshint-script.sh
+          ./scripts/jshint-script.sh
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: linting tool report
+          path: JSHint-report
